@@ -72,6 +72,7 @@
                 <p class="text-gray-500 max-w-2xl mx-auto text-sm italic">Compromisso absoluto com a proteção da vida e excelência técnica.</p>
             </div>
 
+            <!-- Missão, Visão e Valores -->
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- MISSÃO -->
                 <div class="glass p-8 rounded-3xl border-t border-red-600/30 flex flex-col h-full">
@@ -108,6 +109,7 @@
                 </div>
             </div>
 
+            <!-- Detalhes Adicionais da Blindagem -->
             <div class="glass p-8 rounded-[2.5rem] border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6">
@@ -174,7 +176,14 @@
                 </div>
             </div>
             <div id="aiAnalysisResult" class="hidden glass p-10 rounded-[3rem] border border-blue-500/20 mt-12 shadow-2xl">
-                <div class="flex gap-6 items-start"><div class="text-4xl">✨</div><div class="flex-1"><h3 class="text-2xl font-black italic uppercase text-white mb-4">Relatório de Engenharia</h3><div id="analysisContent" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap italic"></div><button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600 transition-all">Fechar Relatório</button></div></div>
+                <div class="flex gap-6 items-start">
+                    <div class="text-4xl">✨</div>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-black italic uppercase text-white mb-4">Relatório de Engenharia VRZ</h3>
+                        <div id="analysisContent" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap italic font-light"></div>
+                        <button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600 transition-all">Fechar Relatório</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -182,8 +191,13 @@
         <section id="page-ai-assistant" class="page-content space-y-8">
             <h1 class="text-4xl font-black italic uppercase text-center">Consultor <span class="text-blue-500">Virtual ✨</span></h1>
             <div class="max-w-3xl mx-auto glass p-6 rounded-[2rem] h-[450px] flex flex-col space-y-4 shadow-inner">
-                <div id="chatHistory" class="flex-1 overflow-y-auto custom-scrollbar space-y-4 text-sm pr-2 italic text-gray-400"><div class="bg-white/5 p-4 rounded-2xl">Olá. Sou o Consultor Virtual da VRZ. Como posso ajudar com questões técnicas?</div></div>
-                <div class="flex gap-2"><input type="text" id="aiQuery" class="flex-1 bg-black/50 border border-gray-800 rounded-2xl p-4 text-white text-sm" placeholder="Escreva sua dúvida técnica..."><button onclick="askGemini()" class="bg-blue-600 px-8 rounded-2xl font-black uppercase text-xs">Enviar</button></div>
+                <div id="chatHistory" class="flex-1 overflow-y-auto custom-scrollbar space-y-4 text-sm pr-2 italic text-gray-400">
+                    <div class="bg-white/5 p-4 rounded-2xl">Olá. Sou o Engenheiro Virtual da VRZ. Posso esclarecer detalhes técnicos sobre os calibres da norma NIJ ou detalhes da nossa frota?</div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="aiQuery" class="flex-1 bg-black/50 border border-gray-800 rounded-2xl p-4 text-white text-sm" placeholder="Escreva sua dúvida técnica...">
+                    <button onclick="askGemini()" class="bg-blue-600 px-8 rounded-2xl font-black uppercase text-xs">Enviar</button>
+                </div>
             </div>
         </section>
 
@@ -234,8 +248,9 @@
             measurementId: "G-9769Y329L2"
         };
         
-        // CHAVE DA IA GEMINI ATUALIZADA POR LUCAS SABINO
-        const geminiApiKey = "AIzaSyDa1o4J--Nel8KaaEL82izNRqx6XqRk-qY"; 
+        // CHAVE DA IA GEMINI ATUALIZADA POR LUCAS SABINO (REFILTRADA)
+        const rawApiKey = " AIzaSyDa1o4J--Nel8KaaEL82izNRqx6XqRk-qY"; 
+        const geminiApiKey = rawApiKey.trim(); // Remove espaços que causam erro 404
         const appId = 'vrz-portal-github-lucas-v2';
 
         let auth, db, currentUser = null;
@@ -338,47 +353,42 @@
             } catch (e) { btn.disabled = false; }
         };
 
-        // FUNÇÃO DE IA COM BACKOFF EXPONENCIAL (PADRÃO GOOGLE)
+        // FUNÇÃO DE IA COM ENDPOINT BETA ESTÁVEL (CORREÇÃO 404)
         async function callGemini(promptText) {
-            if (!geminiApiKey || geminiApiKey.trim() === "") {
-                return "Erro: Chave de API não configurada corretamente no código.";
-            }
+            if (!geminiApiKey) return "Erro: Chave de API ausente.";
 
+            // Tentativa com o endpoint v1beta que é o mais flexível para modelos Flash
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApiKey}`;
+            
             let delay = 1000;
-            const maxRetries = 5;
-
-            for (let i = 0; i < maxRetries; i++) {
+            for (let i = 0; i < 3; i++) {
                 try {
-                    // Endpoint v1 estável para o modelo gemini-1.5-flash
-                    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
-                    
                     const res = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            contents: [{ parts: [{ text: promptText }] }] 
-                        })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
                     });
 
                     if (res.ok) {
                         const data = await res.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "A IA retornou uma resposta vazia.";
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "A IA não retornou texto.";
                     }
 
-                    // Se for erro de cota (429) ou erro de servidor (5xx), tentamos novamente
-                    if (res.status === 429 || res.status >= 500) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        delay *= 2; // Dobra o tempo de espera a cada tentativa
+                    if (res.status === 404) {
+                        return "Erro Técnico (404): O modelo 'gemini-1.5-flash-latest' não foi encontrado. Verifique se a sua chave de API foi gerada para o projeto correto no AI Studio.";
+                    }
+
+                    if (res.status === 429) {
+                        await new Promise(r => setTimeout(r, delay));
+                        delay *= 2;
                         continue;
                     }
 
-                    const errData = await res.json();
-                    return `Erro da API Gemini (${res.status}): ${errData.error?.message || 'Falha desconhecida.'}`;
-
+                    const err = await res.json();
+                    return `Erro Gemini (${res.status}): ${err.error?.message || 'Falha na IA.'}`;
                 } catch (e) {
-                    if (i === maxRetries - 1) return "Erro de Conexão: Não foi possível alcançar os servidores da Google após 5 tentativas.";
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
+                    if (i === 2) return "Erro de Conexão Crítico: O navegador não conseguiu falar com os servidores da Google.";
+                    await new Promise(r => setTimeout(r, delay));
                 }
             }
         }
@@ -388,13 +398,11 @@
             const chat = document.getElementById('chatHistory');
             const q = input.value.trim();
             if (!q) return;
-            
             const userMsg = document.createElement('div');
             userMsg.className = "text-right text-blue-400 text-sm mb-4";
             userMsg.innerText = `● ${q}`;
             chat.appendChild(userMsg);
             input.value = '';
-            
             const response = await callGemini(q);
             const aiMsg = document.createElement('div');
             aiMsg.className = "bg-white/5 p-4 rounded-xl mb-6 text-gray-400 text-sm leading-relaxed italic border border-white/5";
@@ -408,10 +416,8 @@
             const content = document.getElementById('analysisContent');
             modal.classList.remove('hidden');
             modal.scrollIntoView({ behavior: 'smooth' });
-            content.innerText = "Consultando base de dados de engenharia VRZ...";
-            
-            const prompt = `Gera um relatório técnico de engenharia extremamente profissional sobre a blindagem NIJ III-A para o modelo ${m}. Inclua detalhes sobre a performance esperada com mantas Udura. Responda em Português do Brasil de forma executiva e formal.`;
-            
+            content.innerText = "Consultando base de dados VRZ...";
+            const prompt = `Gera um relatório técnico profissional sobre a blindagem NIJ III-A para o modelo ${m}. Português do Brasil.`;
             content.innerText = await callGemini(prompt);
         };
     </script>
