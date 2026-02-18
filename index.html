@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,100 +7,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #050505;
-            color: #ffffff;
-            overflow-x: hidden;
-            margin: 0;
-        }
-        .glass {
-            background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .red-glow {
-            box-shadow: 0 0 30px rgba(220, 38, 38, 0.15);
-        }
-        .nav-link {
-            position: relative;
-            transition: all 0.3s ease;
-            opacity: 0.6;
-        }
-        .nav-link.active {
-            color: #ffffff;
-            opacity: 1;
-        }
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #dc2626;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #ffffff; overflow-x: hidden; margin: 0; }
+        .glass { background: rgba(15, 15, 15, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .nav-link { position: relative; transition: all 0.3s ease; opacity: 0.6; }
+        .nav-link.active { color: #ffffff; opacity: 1; }
+        .nav-link.active::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background: #dc2626; }
+        .page-content { display: none; }
+        .page-content.active { display: block; animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .car-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; border: 1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.01); }
+        .car-card:hover { transform: translateY(-12px); border-color: #dc2626; background: rgba(220, 38, 38, 0.03); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        .loading-screen { position: fixed; inset: 0; background: #050505; display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         
-        .page-content { display: none; }
-        .page-content.active { display: block; animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .icon-box { background: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin-bottom: 20px; }
+        .tech-badge { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #dc2626; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .brand-logo {
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-            font-style: italic;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            user-select: none;
-        }
-        .brand-logo .main {
-            font-size: 1.5rem;
-            color: #ffffff;
-        }
-        .brand-logo .sub {
-            font-size: 0.75rem;
-            letter-spacing: 0.3em;
-            font-weight: 300;
-            color: #ffffff;
-            border-left: 1px solid rgba(255,255,255,0.2);
-            padding-left: 0.75rem;
-            font-style: normal;
-        }
-
-        .car-card {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .car-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: rgba(220, 38, 38, 0.3);
-        }
-        .car-overlay {
-            background: linear-gradient(0deg, rgba(0,0,0,1) 5%, rgba(0,0,0,0.5) 60%, transparent 100%);
-        }
-        
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: #050505;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
+        .input-group { position: relative; }
+        .input-group label { font-size: 9px; text-transform: uppercase; color: #666; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 6px; display: block; }
+        .input-field { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 14px; font-size: 13px; color: white; outline: none; transition: all 0.3s; }
+        .input-field:focus { border-color: #dc2626; background: rgba(255,255,255,0.05); box-shadow: 0 0 15px rgba(220, 38, 38, 0.1); }
+        .suggestion-card { border-left: 3px solid #dc2626; transition: all 0.3s; }
+        .suggestion-card:hover { transform: translateX(5px); background: rgba(255,255,255,0.03); }
     </style>
 </head>
 <body class="min-h-screen">
 
+    <!-- Tela de Carregamento -->
     <div id="loader" class="loading-screen">
         <div class="flex flex-col items-center gap-4">
             <div class="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
@@ -108,100 +43,195 @@
         </div>
     </div>
 
-    <!-- Navegação Superior -->
     <nav class="p-6 flex justify-between items-center glass sticky top-0 z-50">
-        <div class="brand-logo cursor-pointer" onclick="showPage('security')">
-            <span class="main">VRZ</span>
-            <span class="sub">Blindados</span>
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('security')">
+            <span class="font-black italic text-xl tracking-tighter text-white">VRZ</span>
+            <span class="text-[10px] uppercase tracking-[0.3em] font-light border-l border-white/20 pl-3">Blindados</span>
         </div>
         
-        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
-            <button onclick="showPage('security')" id="nav-security" class="nav-link active hover:text-white">Segurança</button>
-            <button onclick="showPage('portfolio')" id="nav-portfolio" class="nav-link hover:text-white">Portfólio</button>
-            <button onclick="showPage('suggestions')" id="nav-suggestions" class="nav-link hover:text-white">Sugestões</button>
-            <button onclick="showPage('ai-assistant')" id="nav-ai-assistant" class="nav-link hover:text-blue-400">Assistente ✨</button>
+        <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+            <button onclick="showPage('security')" id="nav-security" class="nav-link active">Segurança</button>
+            <button onclick="showPage('portfolio')" id="nav-portfolio" class="nav-link">Portfólio</button>
+            <button onclick="showPage('suggestions')" id="nav-suggestions" class="nav-link">Sugestões</button>
+            <button onclick="showPage('ai-assistant')" id="nav-ai-assistant" class="nav-link text-blue-400">Assistente ✨</button>
         </div>
         
         <div id="userBadge" class="text-[9px] text-gray-600 font-mono hidden md:block">
-            STATUS: <span id="userIdDisplay" class="text-red-500 italic">DESCONECTADO</span>
+            STATUS: <span id="userIdDisplay" class="text-red-500 italic uppercase">Desconectado</span>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto p-4 md:p-8">
-        <!-- AVISO DE CONFIGURAÇÃO -->
-        <div id="configWarning" class="hidden glass p-6 rounded-2xl border-l-4 border-yellow-500 mb-8">
-            <h4 class="text-yellow-500 font-bold text-sm mb-1">Atenção: Configuração Pendente</h4>
-            <p class="text-gray-400 text-xs italic">Para utilizar a IA e as Sugestões no GitHub, você precisa inserir suas chaves no código fonte (procurar por CONFIGURAÇÃO MANUAL).</p>
-        </div>
-
-        <!-- PÁGINA: SEGURANÇA -->
-        <section id="page-security" class="page-content active space-y-20">
-            <div class="text-center">
-                <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-none mb-4">Os Pilares da <span class="text-red-600">VRZ</span></h1>
+        <!-- PÁGINA: SEGURANÇA (TÍTULO ATUALIZADO) -->
+        <section id="page-security" class="page-content active space-y-16">
+            <div class="text-center space-y-4">
+                <h1 class="text-4xl md:text-6xl font-black italic uppercase leading-tight">Blindamos com princípios, entregamos com <span class="text-red-600">confiança</span></h1>
+                <p class="text-gray-500 max-w-2xl mx-auto text-sm italic">Compromisso absoluto com a proteção da vida e excelência técnica.</p>
             </div>
 
+            <!-- Missão, Visão e Valores -->
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-3xl border-b-2 border-red-600 hover:red-glow transition-all">
+                <!-- MISSÃO -->
+                <div class="glass p-8 rounded-3xl border-t border-red-600/30 flex flex-col h-full">
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
                     <h3 class="text-xl font-black uppercase italic mb-4 text-red-600">Missão</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Proporcionar tranquilidade e segurança máxima aos nossos clientes, entregando blindagens de alta tecnologia que preservam a integridade física e o prazer de dirigir.</p>
+                    <p class="text-gray-400 text-sm leading-relaxed">Oferecer blindagem automotiva de excelência no Brasil, aliando tecnologia, segurança e preservação do design original, superando expectativas e transmitindo valor agregado em cada entrega.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl border-b-2 border-white/20">
-                    <h3 class="text-xl font-black uppercase italic mb-4">Visão</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">Ser a principal referência nacional e internacional em soluções de blindagem, reconhecida pela inovação constante e qualidade absoluta.</p>
+
+                <!-- VISÃO -->
+                <div class="glass p-8 rounded-3xl border-t border-white/10 flex flex-col h-full">
+                    <div class="icon-box" style="background: #222;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M2 12h4M12 2v4M12 22v-4"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black uppercase italic mb-4 text-white">Visão</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed italic">Ser reconhecida como a melhor empresa de blindagem automotiva premium do país, pela qualidade, inovação e responsabilidade social e ambiental, atendendo de forma personalizada às necessidades de clientes exigentes.</p>
                 </div>
-                <div class="glass p-8 rounded-3xl border-b-2 border-white/20">
-                    <h3 class="text-xl font-black uppercase italic mb-4">Valores</h3>
-                    <ul class="text-gray-400 text-sm space-y-2">
-                        <li>• <span class="text-white font-bold">Segurança:</span> Proteção sem compromissos.</li>
-                        <li>• <span class="text-white font-bold">Inovação:</span> Materiais leves (Mantas Udura®).</li>
-                        <li>• <span class="text-white font-bold">Excelência:</span> Acabamento original impecável.</li>
-                        <li>• <span class="text-white font-bold">Confiança:</span> Sigilo e ética em cada projeto.</li>
-                    </ul>
+
+                <!-- VALORES -->
+                <div class="glass p-8 rounded-3xl border-t border-white/10 flex flex-col h-full">
+                    <div class="icon-box" style="background: #222;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 20.24l7.23-7.23.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-black uppercase italic mb-4 text-white">Valores</h3>
+                    <div class="space-y-4">
+                        <p class="text-[11px] text-gray-300 font-bold leading-tight border-b border-white/5 pb-3">Como empresa de blindagem automotiva, valorizamos a vida acima de tudo. Por isso, respeitamos e cuidamos de tudo que envolve proporcionar a melhor experiênca para todos que são tocados pela VRZ.</p>
+                        
+                        <div class="grid gap-3">
+                            <div class="text-[10px] italic leading-tight">
+                                <span class="text-red-500 font-black uppercase tracking-wider block mb-1">ÉTICA</span>
+                                <span class="text-gray-500">Sempre agir com transparência, responsabilidade e respeito às leis e aos nossos clientes.</span>
+                            </div>
+                            <div class="text-[10px] italic leading-tight">
+                                <span class="text-red-500 font-black uppercase tracking-wider block mb-1">PESSOAS</span>
+                                <span class="text-gray-500">Buscamos valorizar e qualificar nossa equipe para entregar com excelência e satisfação de ser parte do time VRZ.</span>
+                            </div>
+                            <div class="text-[10px] italic leading-tight">
+                                <span class="text-red-500 font-black uppercase tracking-wider block mb-1">INOVAÇÃO</span>
+                                <span class="text-gray-500">A VRZ investe continuamente em tecnologias que elevem o padrão das blindagens.</span>
+                            </div>
+                            <div class="text-[10px] italic leading-tight">
+                                <span class="text-red-500 font-black uppercase tracking-wider block mb-1">QUALIDADE</span>
+                                <span class="text-gray-500">É vital seguirmos padrões rigorosos em cada etapa, garantindo segurança e performance.</span>
+                            </div>
+                            <div class="text-[10px] italic leading-tight">
+                                <span class="text-red-500 font-black uppercase tracking-wider block mb-1">CONFIABILIDADE</span>
+                                <span class="text-gray-500">Seguimos construindo relacionamentos sólidos baseados em confiança e excelência de resultados.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass rounded-3xl overflow-hidden border border-white/10">
-                <div class="p-6 bg-white/5 border-b border-white/10 flex justify-between items-center">
-                    <h2 class="text-xl font-black uppercase italic">Certificação Nível III-A</h2>
-                    <span class="text-[10px] bg-red-600 text-white px-3 py-1 rounded-full font-bold uppercase tracking-widest">Exército Brasileiro</span>
+            <!-- Detalhes Adicionais da Blindagem -->
+            <div class="glass p-8 rounded-[2.5rem] border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl font-black italic uppercase">O que é o Nível <span class="text-red-600">III-A</span>?</h2>
+                        <div class="text-gray-400 text-sm space-y-4 leading-relaxed italic">
+                            <p>O **Nível III-A** representa o equilíbrio perfeito entre proteção e usabilidade civil. Certificado pela norma **NIJ 0108.01**, este padrão garante resistência total contra disparos de armas de mão de alta energia, incluindo a munição .44 Magnum e submetralhadoras 9mm FMJ.</p>
+                            <p>Na VRZ, elevamos este padrão utilizando a tecnologia **Udura®**, que substitui o aço pesado por fibras de aramida de alta tenacidade em 80% do habitáculo, garantindo que a blindagem não comprometa o desempenho original do veículo.</p>
+                        </div>
+                    </div>
+                    <div class="bg-black/40 p-6 rounded-3xl border border-white/5 space-y-4">
+                        <h4 class="text-xs font-bold uppercase text-red-600 tracking-widest">Espectro de Ameaças:</h4>
+                        <div class="grid grid-cols-2 gap-2 text-[9px] font-bold uppercase">
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● Magnum .44 (15.6g)</div>
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● 9mm Luger FMJ</div>
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● .357 SIG High Vel</div>
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● .45 ACP Hollow Pt</div>
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● Submetralhadoras MP5</div>
+                            <div class="bg-white/5 p-3 rounded-xl border border-white/5">● .38 Special +P+</div>
+                        </div>
+                    </div>
                 </div>
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-black/40 text-gray-500">
-                        <tr>
-                            <th class="p-6 font-black uppercase italic text-[10px] tracking-widest">Arma / Calibre</th>
-                            <th class="p-6 font-black uppercase italic text-[10px] tracking-widest text-center">Velocidade</th>
-                            <th class="p-6 font-black uppercase italic text-[10px] tracking-widest text-right">Estatuto</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-white/5">
-                        <tr>
-                            <td class="p-6 text-white font-bold italic">9mm FMJ</td>
-                            <td class="p-6 text-center text-gray-400">426 m/s</td>
-                            <td class="p-6 text-right text-red-500 font-black uppercase tracking-tighter">Protegido</td>
-                        </tr>
-                        <tr>
-                            <td class="p-6 text-white font-bold italic">.44 Magnum</td>
-                            <td class="p-6 text-center text-gray-400">426 m/s</td>
-                            <td class="p-6 text-right text-red-500 font-black uppercase tracking-tighter">Protegido</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </section>
 
         <!-- PÁGINA: PORTFÓLIO -->
         <section id="page-portfolio" class="page-content space-y-12">
-            <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-none text-red-600">Showroom</h1>
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-none text-red-600">Portfólio VRZ</h1>
+                <p class="text-gray-500 text-xs italic uppercase tracking-widest border-b border-red-600/30 pb-2">Excelência Técnica por Modelo</p>
+            </div>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="car-card relative group aspect-[4/5] glass rounded-[2.5rem] overflow-hidden cursor-pointer" onclick="analyzeModel('Jeep Commander')">
-                    <div class="absolute inset-0 bg-neutral-900 opacity-40"></div>
-                    <div class="car-overlay absolute inset-0 opacity-90"></div>
-                    <div class="absolute inset-0 p-8 flex flex-col justify-end">
-                        <span class="text-red-600 text-[10px] font-black uppercase tracking-widest mb-2">SUV Executivo</span>
-                        <h3 class="text-3xl font-black uppercase italic">Commander</h3>
-                        <div class="pt-4 border-t border-white/10 flex items-center justify-between mt-4">
-                            <span class="text-[9px] font-bold text-blue-400 uppercase">Análise IA ✨</span>
-                        </div>
+                <!-- Jeep Commander -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Jeep Commander')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">SUV Executivo</span>
+                        <h3 class="text-3xl font-black uppercase italic">Jeep Commander</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Otimizado para o transporte executivo, este projeto foca no isolamento acústico superior e na manutenção do acabamento interno original da Jeep.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
+                    </div>
+                </div>
+
+                <!-- BMW X5 -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('BMW X5')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">Sport Luxury</span>
+                        <h3 class="text-3xl font-black uppercase italic">BMW X5</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Blindagem perimetral total com preservação integral dos sensores ADAS e sistemas de segurança ativa, mantendo o DNA de performance esportiva da BMW.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
+                    </div>
+                </div>
+
+                <!-- Toyota SW4 -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Toyota SW4')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">Off-Road Robust</span>
+                        <h3 class="text-3xl font-black uppercase italic">Toyota SW4</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Projetada para terrenos severos. Inclui proteção estratégica de radiador e bateria, garantindo a operacionalidade do veículo em cenários de fuga críticos.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
+                    </div>
+                </div>
+
+                <!-- Volvo XC90 -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Volvo XC90')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">Safety Legend</span>
+                        <h3 class="text-3xl font-black uppercase italic">Volvo XC90</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Integração invisível da blindagem. O projeto VRZ para a Volvo XC90 respeita todos os protocolos de segurança passiva do fabricante.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
+                    </div>
+                </div>
+
+                <!-- Porsche Cayenne -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Porsche Cayenne')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">Sport Performance</span>
+                        <h3 class="text-3xl font-black uppercase italic">Porsche Cayenne</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Engenharia de peso reduzido através de compósitos aeroespaciais, focada em condutores que não abrem mão da dinâmica e aceleração originais.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
+                    </div>
+                </div>
+
+                <!-- Land Rover Defender -->
+                <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Land Rover Defender')">
+                    <div class="flex-1 space-y-4">
+                        <span class="tech-badge">Extreme Utility</span>
+                        <h3 class="text-3xl font-black uppercase italic">Defender 110</h3>
+                        <p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">O verdadeiro forte móvel. Blindagem perimetral estendida com reforços de dobradiças para suportar expedições em zonas de alto risco.</p>
+                    </div>
+                    <div class="pt-6 flex items-center justify-between">
+                        <span class="text-[9px] font-bold text-blue-400 uppercase tracking-widest">Análise Técnica ✨</span>
+                        <div class="w-8 h-8 rounded-full border border-red-600/30 flex items-center justify-center text-red-600">→</div>
                     </div>
                 </div>
             </div>
@@ -210,48 +240,72 @@
                 <div class="flex gap-6 items-start">
                     <div class="text-4xl">✨</div>
                     <div class="flex-1">
-                        <h3 class="text-2xl font-black italic uppercase text-white mb-4" id="analysisTitle">Relatório VRZ IA</h3>
+                        <h3 class="text-2xl font-black italic uppercase text-white mb-4">Relatório de Engenharia VRZ</h3>
                         <div id="analysisContent" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap italic font-light"></div>
-                        <button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600 transition-all">Fechar</button>
+                        <button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600 transition-all">Fechar Relatório</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- PÁGINA: ASSISTENTE -->
+        <!-- PÁGINA: ASSISTENTE IA -->
         <section id="page-ai-assistant" class="page-content space-y-8">
-            <h1 class="text-4xl md:text-5xl font-black italic uppercase leading-none text-white text-center">Assistente <span class="text-blue-500">VRZ ✨</span></h1>
-            <div class="max-w-3xl mx-auto glass p-6 rounded-[2rem] h-[450px] flex flex-col space-y-4 shadow-inner bg-black/20">
-                <div id="chatHistory" class="flex-1 overflow-y-auto custom-scrollbar space-y-4 text-sm pr-2">
-                    <div class="bg-white/5 p-4 rounded-2xl rounded-tl-none self-start max-w-[85%] border border-white/5 text-gray-400 italic">
-                        Sistema Ativo. Como posso ajudar com questões técnicas hoje?
-                    </div>
+            <h1 class="text-4xl font-black italic uppercase text-center">Consultor <span class="text-blue-500">Virtual ✨</span></h1>
+            <div class="max-w-3xl mx-auto glass p-6 rounded-[2rem] h-[450px] flex flex-col space-y-4 shadow-inner">
+                <div id="chatHistory" class="flex-1 overflow-y-auto custom-scrollbar space-y-4 text-sm pr-2 italic text-gray-400">
+                    <div class="bg-white/5 p-4 rounded-2xl">Olá. Sou o Engenheiro Virtual da VRZ. Posso esclarecer detalhes técnicos sobre os calibres da norma NIJ ou detalhes da nossa frota?</div>
                 </div>
                 <div class="flex gap-2">
-                    <input type="text" id="aiQuery" class="flex-1 bg-black/50 border border-gray-800 rounded-2xl p-4 focus:border-blue-600 outline-none text-white text-sm" placeholder="Sua dúvida...">
-                    <button onclick="askGemini()" id="sendAiBtn" class="bg-blue-600 px-8 rounded-2xl font-black uppercase hover:bg-blue-700 transition-all text-xs">Enviar ✨</button>
+                    <input type="text" id="aiQuery" class="flex-1 bg-black/50 border border-gray-800 rounded-2xl p-4 text-white text-sm" placeholder="Escreva sua dúvida técnica...">
+                    <button onclick="askGemini()" class="bg-blue-600 px-8 rounded-2xl font-black uppercase text-xs">Enviar</button>
                 </div>
             </div>
         </section>
 
         <!-- PÁGINA: SUGESTÕES -->
-        <section id="page-suggestions" class="page-content">
-            <div class="grid md:grid-cols-2 gap-12 items-start mb-20">
-                <div class="glass p-8 rounded-3xl">
-                    <h2 class="text-2xl font-black uppercase italic mb-6">Sugestões de Melhorias</h2>
-                    <form id="suggestionForm" onsubmit="event.preventDefault(); submitFeedback();" class="space-y-4">
-                        <div class="grid grid-cols-2 gap-4">
-                            <input type="text" id="userName" required class="bg-black/50 border border-gray-800 rounded-xl p-4 outline-none text-white text-sm focus:border-red-600" placeholder="Nome">
-                            <input type="text" id="userSector" required class="bg-black/50 border border-gray-800 rounded-xl p-4 outline-none text-white text-sm focus:border-red-600" placeholder="Setor">
+        <section id="page-suggestions" class="page-content space-y-12">
+            <div class="text-center space-y-2">
+                <h1 class="text-5xl font-black italic uppercase leading-none text-white">Canal de <span class="text-red-600">Inovação</span></h1>
+                <p class="text-gray-500 text-xs italic uppercase tracking-widest">Sua ideia técnica pode definir o próximo padrão de segurança VRZ</p>
+            </div>
+
+            <div class="grid md:grid-cols-5 gap-8 items-start">
+                <div class="md:col-span-2 glass p-8 rounded-[2rem] space-y-6 sticky top-24">
+                    <h2 class="text-xl font-black uppercase italic border-b border-white/5 pb-4">Nova Proposta</h2>
+                    <form onsubmit="event.preventDefault(); submitFeedback();" class="space-y-5">
+                        <div class="input-group">
+                            <label>Identificação</label>
+                            <input type="text" id="userName" required class="input-field" placeholder="Seu nome completo">
                         </div>
-                        <textarea id="userText" required rows="4" class="w-full bg-black/50 border border-gray-800 rounded-xl p-4 outline-none text-white text-sm focus:border-red-600" placeholder="Sua ideia..."></textarea>
-                        <button id="submitBtn" class="w-full bg-red-600 py-4 rounded-xl font-black uppercase italic hover:bg-red-700 transition-all">Enviar</button>
+                        <div class="input-group">
+                            <label>Departamento / Setor</label>
+                            <select id="userSector" required class="input-field appearance-none">
+                                <option value="" disabled selected>Selecione seu setor</option>
+                                <option value="Engenharia">Engenharia Balística</option>
+                                <option value="Produção">Linha de Produção</option>
+                                <option value="Qualidade">Controle de Qualidade</option>
+                                <option value="Vendas">Consultoria de Vendas</option>
+                                <option value="Logística">Logística / Operações</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Descrição da Melhoria</label>
+                            <textarea id="userText" required rows="5" class="input-field resize-none custom-scrollbar" placeholder="Descreva sua ideia técnica de forma clara..."></textarea>
+                        </div>
+                        <button id="submitBtn" class="w-full bg-red-600 py-4 rounded-xl font-black uppercase italic hover:bg-red-700 transition-all flex items-center justify-center gap-2 group">
+                            <span>Enviar Proposta</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                        </button>
                     </form>
                 </div>
-                <div class="space-y-6">
-                    <h2 class="text-xl font-bold uppercase italic text-gray-500">Log de Inovação</h2>
-                    <div id="suggestionsList" class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar text-xs text-gray-600 italic">
-                        Aguardando sincronização...
+                <div class="md:col-span-3 space-y-6">
+                    <div class="flex items-center justify-between px-2">
+                        <h2 class="text-lg font-bold uppercase italic text-gray-400">Log de Inovações Ativas</h2>
+                        <span class="text-[8px] bg-white/5 px-2 py-1 rounded text-gray-500 border border-white/5 uppercase tracking-widest">Cloud Sincronizado</span>
+                    </div>
+                    <div id="suggestionsList" class="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar italic text-xs text-gray-600">
+                        <div class="glass p-6 rounded-2xl animate-pulse">Estabelecendo conexão segura com o servidor VRZ...</div>
                     </div>
                 </div>
             </div>
@@ -266,82 +320,51 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ================================================================
-        // [ CONFIGURAÇÃO MANUAL - COLOQUE SEUS DADOS AQUI ]
-        // ================================================================
-        
-        // 1. CHAVE DO GEMINI (IA)
-        // Obtenha em: https://aistudio.google.com/app/apikey
-        const manualGeminiKey = "AIzaSyBs8w8OxcvcWw9-Q4lyz9LrO3py_DpWOWc"; 
-
-        // 2. CONFIGURAÇÃO DO FIREBASE (BASE DE DADOS)
-        // Obtenha no Console do Firebase > Configurações do Projeto
-        const manualFirebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyAfvmNT31fj5uQsDmb-q-kziFpWXMRxMzs",
             authDomain: "portal-vrz-81ba7.firebaseapp.com",
             projectId: "portal-vrz-81ba7",
             storageBucket: "portal-vrz-81ba7.firebasestorage.app",
             messagingSenderId: "412528367584",
-            appId: "1:412528367584:web:3868b331829839ae58bd85"
-             measurementId: "G-9769Y329L2"
-            
+            appId: "1:412528367584:web:3868b331829839ae58bd85",
+            measurementId: "G-9769Y329L2"
         };
-
-        // Lógica de Ativação Automática
-        const firebaseConfig = (manualFirebaseConfig.apiKey) ? manualFirebaseConfig : (typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null);
-        const geminiApiKey = (manualGeminiKey) ? manualGeminiKey : (typeof apiKey !== 'undefined' ? apiKey : "");
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'vrz-portal-github';
+        
+        const geminiApiKey = "AIzaSyBs8w8OxcvcWw9-Q4lyz9LrO3py_DpWOWc"; 
+        const appId = 'vrz-portal-github-lucas-v2';
 
         let auth, db, currentUser = null;
 
         window.onload = async () => {
             const loader = document.getElementById('loader');
-            
-            if (!firebaseConfig || !firebaseConfig.apiKey) {
-                document.getElementById('configWarning').classList.remove('hidden');
-            }
-
             try {
-                if (firebaseConfig && firebaseConfig.apiKey) {
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
-
-                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        await signInWithCustomToken(auth, __initial_auth_token);
-                    } else {
-                        await signInAnonymously(auth);
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                await signInAnonymously(auth);
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        currentUser = user;
+                        const badge = document.getElementById('userIdDisplay');
+                        badge.innerText = "VRZ-SECURE";
+                        badge.classList.replace('text-red-500', 'text-green-500');
+                        loadSuggestions();
                     }
-
-                    onAuthStateChanged(auth, (user) => {
-                        if (user) {
-                            currentUser = user;
-                            document.getElementById('userIdDisplay').innerText = "VRZ-SECURE";
-                            document.getElementById('userIdDisplay').classList.replace('text-red-500', 'text-green-500');
-                            loadSuggestions();
-                        }
-                    });
-                }
-            } catch (e) { console.warn("Config required."); }
+                });
+            } catch (e) { console.error(e); }
             finally {
-                setTimeout(() => {
-                    if(loader) {
-                        loader.style.opacity = '0';
-                        setTimeout(() => loader.remove(), 500);
-                    }
-                }, 800);
+                setTimeout(() => { if(loader) { loader.style.opacity = '0'; setTimeout(() => loader.remove(), 500); } }, 1000);
             }
         };
 
-        window.showPage = (pageId) => {
+        window.showPage = (id) => {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(`page-${pageId}`).classList.add('active');
-            const btn = document.getElementById(`nav-${pageId}`);
-            if(btn) btn.classList.add('active');
+            document.getElementById(`page-${id}`)?.classList.add('active');
+            document.getElementById(`nav-${id}`)?.classList.add('active');
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
 
@@ -350,46 +373,72 @@
             const ref = collection(db, 'artifacts', appId, 'public', 'data', 'suggestions');
             onSnapshot(ref, (snap) => {
                 const list = document.getElementById('suggestionsList');
-                if (!list) return;
                 list.innerHTML = '';
                 const docs = snap.docs.map(doc => doc.data()).sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                
+                if(docs.length === 0) {
+                    list.innerHTML = '<div class="glass p-8 rounded-2xl text-center text-gray-500 italic">Nenhuma proposta registrada. Seja o primeiro a inovar!</div>';
+                    return;
+                }
+
                 docs.forEach(data => {
                     const div = document.createElement('div');
-                    div.className = 'glass p-5 rounded-2xl border-l-2 border-red-600 transition-all';
-                    div.innerHTML = `<div class="flex justify-between items-center mb-1"><span class="text-red-500 font-black uppercase text-[10px]">${data.name || 'User'}</span><span class="text-gray-700 uppercase text-[8px] tracking-widest">${data.sector || 'Geral'}</span></div><p class="text-gray-400 leading-relaxed italic">"${data.text || ''}"</p>`;
+                    div.className = 'glass p-6 rounded-2xl suggestion-card space-y-3';
+                    const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleDateString('pt-BR') : 'Agora';
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <span class="text-red-500 font-black uppercase text-[10px] tracking-widest">${data.name}</span>
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-white/5 text-gray-400 px-2 py-0.5 rounded text-[8px] font-bold uppercase">${data.sector || 'Geral'}</span>
+                                    <span class="text-gray-700 text-[8px] font-mono">${time}</span>
+                                </div>
+                            </div>
+                            <span class="text-[8px] text-green-500 font-black uppercase border border-green-500/20 px-2 py-0.5 rounded bg-green-500/5">Em Análise</span>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed italic font-light">"${data.text}"</p>
+                    `;
                     list.appendChild(div);
                 });
+            }, (err) => {
+                document.getElementById('suggestionsList').innerHTML = `<div class="text-red-500 p-4 border border-red-900/20 rounded-xl">ERRO NO FIRESTORE: Ative o Modo de Teste no Console do Firebase.</div>`;
             });
         }
 
         window.submitFeedback = async () => {
-            if (!db || !currentUser) { alert('Conecte o Firebase nas chaves do código primeiro.'); return; }
             const btn = document.getElementById('submitBtn');
             const name = document.getElementById('userName').value.trim();
-            const sector = document.getElementById('userSector').value.trim();
             const text = document.getElementById('userText').value.trim();
-            if (!name || !text) return;
+            const sector = document.getElementById('userSector').value.trim();
+            if (!name || !text || !db) return;
             btn.disabled = true;
+            btn.innerHTML = '<span class="animate-pulse">PROCESSANDO...</span>';
             try {
                 await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'suggestions'), { name, sector, text, timestamp: serverTimestamp() });
                 document.getElementById('userText').value = '';
-                btn.innerText = "ENVIADO";
-                setTimeout(() => { btn.innerText = "ENVIAR"; btn.disabled = false; }, 2000);
-            } catch (e) { btn.disabled = false; }
+                btn.innerHTML = '<span>SUGESTÃO ENVIADA!</span>';
+                btn.classList.replace('bg-red-600', 'bg-green-600');
+                setTimeout(() => { 
+                    btn.innerHTML = '<span>Enviar Proposta</span>'; 
+                    btn.classList.replace('bg-green-600', 'bg-red-600');
+                    btn.disabled = false; 
+                }, 3000);
+            } catch (e) { 
+                btn.innerHTML = '<span>ERRO AO ENVIAR</span>';
+                setTimeout(() => { btn.innerHTML = '<span>Enviar Proposta</span>'; btn.disabled = false; }, 2000);
+            }
         };
 
-        async function callGemini(p, s = "És um engenheiro sénior da VRZ Blindados em Portugal.") {
-            const key = geminiApiKey;
-            if (!key) return "ERRO: Chave API da IA ausente. Configure o ficheiro no GitHub.";
+        async function callGemini(p) {
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: p }] }], systemInstruction: { parts: [{ text: s }] } })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: p }] }] })
                 });
                 const d = await res.json();
-                return d.candidates?.[0]?.content?.parts?.[0]?.text;
-            } catch (e) { return "Erro de rede com a IA."; }
+                return d.candidates[0].content.parts[0].text;
+            } catch (e) { return "Erro de conexão."; }
         }
 
         window.askGemini = async () => {
@@ -397,16 +446,10 @@
             const chat = document.getElementById('chatHistory');
             const q = input.value.trim();
             if (!q) return;
-            const u = document.createElement('div');
-            u.className = 'bg-red-600/10 p-4 rounded-2xl self-end max-w-[85%] border border-red-600/20 text-white text-sm';
-            u.innerText = q;
-            chat.appendChild(u);
+            chat.innerHTML += `<div class="text-right text-blue-400 text-sm mb-4">${q}</div>`;
             input.value = '';
             const r = await callGemini(q);
-            const a = document.createElement('div');
-            a.className = 'bg-white/5 p-4 rounded-2xl self-start max-w-[85%] border border-white/5 text-gray-400 text-sm leading-relaxed';
-            a.innerText = r;
-            chat.appendChild(a);
+            chat.innerHTML += `<div class="text-gray-400 text-sm mb-6">${r}</div>`;
             chat.scrollTop = chat.scrollHeight;
         };
 
@@ -414,9 +457,10 @@
             const modal = document.getElementById('aiAnalysisResult');
             const content = document.getElementById('analysisContent');
             modal.classList.remove('hidden');
-            content.innerHTML = "Processando scanner balístico VRZ...";
-            const r = await callGemini(`Relatório curto de engenharia sobre blindagem III-A para o modelo ${m}.`);
-            content.innerText = r;
+            modal.scrollIntoView({ behavior: 'smooth' });
+            content.innerText = "Consultando base de dados de engenharia balística VRZ...";
+            const prompt = `Gera um relatório técnico de engenharia extremamente profissional sobre a blindagem NIJ III-A para o modelo ${m}. Inclua detalhes sobre a distribuição de peso, reforço de suspensão necessário, áreas de sobreposição em aço e a performance esperada com mantas Udura. Escreva em Português do Brasil.`;
+            content.innerText = await callGemini(prompt);
         };
     </script>
 </body>
