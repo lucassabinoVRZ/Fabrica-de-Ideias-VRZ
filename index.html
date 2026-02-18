@@ -109,7 +109,6 @@
                 </div>
             </div>
 
-            <!-- Detalhes Adicionais da Blindagem -->
             <div class="glass p-8 rounded-[2.5rem] border border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="space-y-6">
@@ -214,7 +213,7 @@
                         <div class="input-group"><label>Identificação</label><input type="text" id="userName" required class="input-field" placeholder="Seu nome"></div>
                         <div class="input-group"><label>Departamento</label><input type="text" id="userSector" required class="input-field" placeholder="Seu setor"></div>
                         <div class="input-group"><label>Linha de Produção</label><input type="text" id="userProdLine" required class="input-field" placeholder="Sua linha de trabalho"></div>
-                        <div class="input-group"><label>Descrição</label><textarea id="userText" required rows="5" class="input-field resize-none custom-scrollbar" placeholder="Descreva sua ideia técnica..."></textarea></div>
+                        <div class="input-group"><label>Descrição</label><textarea id="userText" required rows="5" class="input-field resize-none custom-scrollbar" placeholder="Descreva sua ideia técnica de forma clara..."></textarea></div>
                         <button id="submitBtn" class="w-full bg-red-600 py-4 rounded-xl font-black uppercase italic hover:bg-red-700 transition-all flex items-center justify-center gap-2 group"><span>Enviar Proposta</span></button>
                     </form>
                 </div>
@@ -248,9 +247,9 @@
             measurementId: "G-9769Y329L2"
         };
         
-        // CHAVE DA IA GEMINI ATUALIZADA POR LUCAS SABINO (REFILTRADA)
+        // CHAVE DA IA GEMINI ATUALIZADA POR LUCAS SABINO
         const rawApiKey = " AIzaSyDa1o4J--Nel8KaaEL82izNRqx6XqRk-qY"; 
-        const geminiApiKey = rawApiKey.trim(); // Remove espaços que causam erro 404
+        const geminiApiKey = rawApiKey.trim();
         const appId = 'vrz-portal-github-lucas-v2';
 
         let auth, db, currentUser = null;
@@ -353,43 +352,44 @@
             } catch (e) { btn.disabled = false; }
         };
 
-        // FUNÇÃO DE IA COM ENDPOINT BETA ESTÁVEL (CORREÇÃO 404)
+        // FUNÇÃO DE IA COM ENDPOINT BETA CORRIGIDO PARA EVITAR ERRO 404
         async function callGemini(promptText) {
             if (!geminiApiKey) return "Erro: Chave de API ausente.";
 
-            // Tentativa com o endpoint v1beta que é o mais flexível para modelos Flash
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApiKey}`;
+            // Endpoint usando a versão beta que é necessária para o modelo 1.5 Flash em diversas regiões
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
             
-            let delay = 1000;
-            for (let i = 0; i < 3; i++) {
-                try {
-                    const res = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                    });
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        contents: [{ 
+                            parts: [{ text: promptText }] 
+                        }] 
+                    })
+                });
 
-                    if (res.ok) {
-                        const data = await res.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "A IA não retornou texto.";
-                    }
+                if (res.status === 404) {
+                    return "Erro Crítico (404): O modelo 'gemini-1.5-flash' não foi encontrado nesta versão da API (v1beta). Tente gerar uma chave nova e garantir que o modelo Flash esteja habilitado.";
+                }
 
-                    if (res.status === 404) {
-                        return "Erro Técnico (404): O modelo 'gemini-1.5-flash-latest' não foi encontrado. Verifique se a sua chave de API foi gerada para o projeto correto no AI Studio.";
-                    }
-
-                    if (res.status === 429) {
-                        await new Promise(r => setTimeout(r, delay));
-                        delay *= 2;
-                        continue;
-                    }
-
+                if (!res.ok) {
                     const err = await res.json();
                     return `Erro Gemini (${res.status}): ${err.error?.message || 'Falha na IA.'}`;
-                } catch (e) {
-                    if (i === 2) return "Erro de Conexão Crítico: O navegador não conseguiu falar com os servidores da Google.";
-                    await new Promise(r => setTimeout(r, delay));
                 }
+
+                const data = await res.json();
+                
+                // Navegação segura no JSON de resposta da Google
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                    return data.candidates[0].content.parts[0].text;
+                } else {
+                    return "A IA processou o pedido, mas a resposta veio em um formato desconhecido.";
+                }
+            } catch (e) {
+                console.error("Erro técnico Gemini:", e);
+                return "Erro de Conexão: Não foi possível alcançar os servidores da Google. Verifique sua rede ou permissões de segurança do navegador.";
             }
         }
 
@@ -398,11 +398,13 @@
             const chat = document.getElementById('chatHistory');
             const q = input.value.trim();
             if (!q) return;
+            
             const userMsg = document.createElement('div');
             userMsg.className = "text-right text-blue-400 text-sm mb-4";
             userMsg.innerText = `● ${q}`;
             chat.appendChild(userMsg);
             input.value = '';
+            
             const response = await callGemini(q);
             const aiMsg = document.createElement('div');
             aiMsg.className = "bg-white/5 p-4 rounded-xl mb-6 text-gray-400 text-sm leading-relaxed italic border border-white/5";
@@ -423,4 +425,3 @@
     </script>
 </body>
 </html>
-
