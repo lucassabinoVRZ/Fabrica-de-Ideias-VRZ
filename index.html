@@ -38,6 +38,7 @@
 </head>
 <body class="min-h-screen">
 
+    <!-- Tela de Carregamento -->
     <div id="loader" class="loading-screen">
         <div class="flex flex-col items-center gap-4">
             <div class="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
@@ -72,20 +73,29 @@
             </div>
 
             <div class="grid md:grid-cols-3 gap-8">
+                <!-- MISSÃO -->
                 <div class="glass p-8 rounded-3xl border-t border-red-600/30 flex flex-col h-full">
-                    <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
                     <h3 class="text-xl font-black uppercase italic mb-4 text-red-600">Missão</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Oferecer blindagem automotiva de excelência no Brasil, aliando tecnologia, segurança e preservação do design original, superando expectativas e transmitindo valor agregado em cada entrega.</p>
                 </div>
 
+                <!-- VISÃO -->
                 <div class="glass p-8 rounded-3xl border-t border-white/10 flex flex-col h-full">
-                    <div class="icon-box" style="background: #222;"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M2 12h4M12 2v4M12 22v-4"/></svg></div>
+                    <div class="icon-box" style="background: #222;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M22 12h-4M2 12h4M12 2v4M12 22v-4"/></svg>
+                    </div>
                     <h3 class="text-xl font-black uppercase italic mb-4 text-white">Visão</h3>
                     <p class="text-gray-400 text-sm leading-relaxed italic">Ser reconhecida como a melhor empresa de blindagem automotiva premium do país, pela qualidade, inovação e responsabilidade social e ambiental, atendendo de forma personalizada às necessidades de clientes exigentes.</p>
                 </div>
 
+                <!-- VALORES -->
                 <div class="glass p-8 rounded-3xl border-t border-white/10 flex flex-col h-full">
-                    <div class="icon-box" style="background: #222;"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 20.24l7.23-7.23.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></div>
+                    <div class="icon-box" style="background: #222;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.78L12 20.24l7.23-7.23.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg>
+                    </div>
                     <h3 class="text-xl font-black uppercase italic mb-4 text-white">Valores</h3>
                     <div class="space-y-4 text-xs text-gray-400 leading-tight italic">
                         <p class="text-[11px] text-gray-300 font-bold leading-tight border-b border-white/5 pb-3">Como empresa de blindagem automotiva, valorizamos a vida acima de tudo.</p>
@@ -155,7 +165,7 @@
                     <div class="pt-6 flex justify-between items-center text-[9px] font-bold text-blue-400 uppercase">Análise Técnica ✨ <span class="text-red-600 text-lg">→</span></div>
                 </div>
                 <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Audi Q8')">
-                    <div class="flex-1 space-y-4"><span class="tech-badge">Futuristic Armor</span><h3 class="text-3xl font-black uppercase italic">Audi Q8</h3><p class="text-gray-400 text-sm italic border-t border-white/5 pt-4">Integração perfeita de vidros curvos e proteção de elite.</p></div>
+                    <div class="flex-1 space-y-4"><span class="tech-badge">Futuristic Armor</span><h3 class="text-3xl font-black uppercase italic">Audi Q8</h3><p class="text-gray-400 text-sm italic leading-relaxed pt-4 border-t border-white/5">Proteção de elite alemã com integração perfeita de vidros curvos.</p></div>
                     <div class="pt-6 flex justify-between items-center text-[9px] font-bold text-blue-400 uppercase">Análise Técnica ✨ <span class="text-red-600 text-lg">→</span></div>
                 </div>
                 <div class="car-card p-8 rounded-[2.5rem] flex flex-col min-h-[300px]" onclick="analyzeModel('Rover Vogue')">
@@ -164,7 +174,7 @@
                 </div>
             </div>
             <div id="aiAnalysisResult" class="hidden glass p-10 rounded-[3rem] border border-blue-500/20 mt-12 shadow-2xl">
-                <div class="flex gap-6 items-start"><div class="text-4xl">✨</div><div class="flex-1"><h3 class="text-2xl font-black italic uppercase text-white mb-4">Relatório de Engenharia</h3><div id="analysisContent" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap italic"></div><button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600">Fechar Relatório</button></div></div>
+                <div class="flex gap-6 items-start"><div class="text-4xl">✨</div><div class="flex-1"><h3 class="text-2xl font-black italic uppercase text-white mb-4">Relatório de Engenharia</h3><div id="analysisContent" class="text-gray-400 text-sm leading-relaxed whitespace-pre-wrap italic"></div><button onclick="this.parentElement.parentElement.parentElement.classList.add('hidden')" class="mt-8 text-[10px] font-black uppercase text-gray-600 hover:text-red-600 transition-all">Fechar Relatório</button></div></div>
             </div>
         </section>
 
@@ -224,7 +234,7 @@
             measurementId: "G-9769Y329L2"
         };
         
-        // NOVA CHAVE DA IA GEMINI ATUALIZADA
+        // CHAVE DA IA GEMINI ATUALIZADA POR LUCAS SABINO
         const geminiApiKey = "AIzaSyDa1o4J--Nel8KaaEL82izNRqx6XqRk-qY"; 
         const appId = 'vrz-portal-github-lucas-v2';
 
@@ -328,33 +338,48 @@
             } catch (e) { btn.disabled = false; }
         };
 
+        // FUNÇÃO DE IA COM BACKOFF EXPONENCIAL (PADRÃO GOOGLE)
         async function callGemini(promptText) {
             if (!geminiApiKey || geminiApiKey.trim() === "") {
-                return "Erro: Chave de API não encontrada no código.";
+                return "Erro: Chave de API não configurada corretamente no código.";
             }
-            try {
-                // Usando a rota v1 oficial de produção do Google AI
-                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
-                const res = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                });
-                
-                if (!res.ok) {
-                    const err = await res.json();
-                    return `Erro Técnico (${res.status}): ${err.error?.message || 'Falha na conexão com Google AI.'}`;
+
+            let delay = 1000;
+            const maxRetries = 5;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    // Endpoint v1 estável para o modelo gemini-1.5-flash
+                    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
+                    
+                    const res = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            contents: [{ parts: [{ text: promptText }] }] 
+                        })
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "A IA retornou uma resposta vazia.";
+                    }
+
+                    // Se for erro de cota (429) ou erro de servidor (5xx), tentamos novamente
+                    if (res.status === 429 || res.status >= 500) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2; // Dobra o tempo de espera a cada tentativa
+                        continue;
+                    }
+
+                    const errData = await res.json();
+                    return `Erro da API Gemini (${res.status}): ${errData.error?.message || 'Falha desconhecida.'}`;
+
+                } catch (e) {
+                    if (i === maxRetries - 1) return "Erro de Conexão: Não foi possível alcançar os servidores da Google após 5 tentativas.";
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
                 }
-                
-                const data = await res.json();
-                if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-                    return data.candidates[0].content.parts[0].text;
-                } else {
-                    return "A IA não conseguiu formatar a resposta corretamente. Tente de novo.";
-                }
-            } catch (e) { 
-                console.error("Erro Gemini:", e);
-                return "Erro de Conexão: Verifique sua internet ou permissões de CORS."; 
             }
         }
 
@@ -363,11 +388,13 @@
             const chat = document.getElementById('chatHistory');
             const q = input.value.trim();
             if (!q) return;
+            
             const userMsg = document.createElement('div');
             userMsg.className = "text-right text-blue-400 text-sm mb-4";
             userMsg.innerText = `● ${q}`;
             chat.appendChild(userMsg);
             input.value = '';
+            
             const response = await callGemini(q);
             const aiMsg = document.createElement('div');
             aiMsg.className = "bg-white/5 p-4 rounded-xl mb-6 text-gray-400 text-sm leading-relaxed italic border border-white/5";
@@ -381,8 +408,10 @@
             const content = document.getElementById('analysisContent');
             modal.classList.remove('hidden');
             modal.scrollIntoView({ behavior: 'smooth' });
-            content.innerText = "Consultando base de dados VRZ...";
-            const prompt = `Gera um relatório técnico de engenharia profissional sobre a blindagem NIJ III-A para o modelo ${m}. Inclua distribuição de peso e performance com Udura. Responda em Português do Brasil de forma executiva.`;
+            content.innerText = "Consultando base de dados de engenharia VRZ...";
+            
+            const prompt = `Gera um relatório técnico de engenharia extremamente profissional sobre a blindagem NIJ III-A para o modelo ${m}. Inclua detalhes sobre a performance esperada com mantas Udura. Responda em Português do Brasil de forma executiva e formal.`;
+            
             content.innerText = await callGemini(prompt);
         };
     </script>
