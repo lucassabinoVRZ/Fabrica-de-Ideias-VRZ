@@ -62,7 +62,6 @@
     <nav class="p-6 flex justify-between items-center glass sticky top-0 z-50">
         <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('suggestions')">
             <span class="font-black italic text-xl tracking-tighter text-white">VRZ</span>
-            <span class="text-[10px] uppercase tracking-[0.3em] font-light border-l border-white/20 pl-3 hidden sm:block">Blindados</span>
         </div>
         <div class="hidden md:flex gap-8 text-[10px] font-bold uppercase tracking-widest text-gray-400">
             <button onclick="showPage('suggestions')" id="nav-suggestions" class="nav-link active">Sugestões</button>
@@ -94,9 +93,8 @@
                     <form id="feedbackForm" class="space-y-4">
                         <input type="text" id="userName" required class="input-field" placeholder="Seu Nome">
                         <input type="text" id="userSector" required class="input-field" placeholder="Departamento">
-                        <!-- Campo Linha de Produção alterado para opcional (sem o atributo required) -->
                         <input type="text" id="userProdLine" class="input-field" placeholder="Linha de Produção (Opcional)">
-                        <textarea id="userText" required rows="4" class="input-field resize-none" placeholder="Descreva sua ideia técnica de forma clara..."></textarea>
+                        <textarea id="userText" required rows="4" class="input-field resize-none" placeholder="Descreva sua ideia de forma clara..."></textarea>
                         <button type="submit" id="submitBtn" class="w-full bg-red-600 py-4 rounded-xl font-black uppercase italic tracking-tighter hover:bg-red-700 transition-all">Enviar Proposta</button>
                     </form>
                 </div>
@@ -165,14 +163,24 @@
                     <div class="glass p-6 md:p-8 rounded-[2rem] border border-white/5 space-y-6 overflow-hidden">
                         <h2 class="text-xl font-black uppercase italic text-white">Destaques</h2>
                         <div class="carousel-container custom-scrollbar">
-                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black flex items-center justify-center">
-                                <span class="text-gray-700 text-[10px] uppercase font-bold italic">Video 1 Placeholder</span>
+                            <!-- Atualização dos vídeos e imagem conforme nomes do GitHub -->
+                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black">
+                                <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                    <source src="video1.mp4.mp4" type="video/mp4">
+                                </video>
                             </div>
-                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black flex items-center justify-center">
-                                <span class="text-gray-700 text-[10px] uppercase font-bold italic">Video 2 Placeholder</span>
+                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black">
+                                <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                    <source src="video2.mp4.mp4" type="video/mp4">
+                                </video>
                             </div>
-                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black flex items-center justify-center">
-                                <span class="text-gray-700 text-[10px] uppercase font-bold italic">Video 3 Placeholder</span>
+                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black">
+                                <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                                    <source src="video3.mp4.mp4" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="carousel-item rounded-xl border border-white/10 overflow-hidden aspect-[9/16] bg-black">
+                                <img src="video4.mp3.jpg" class="w-full h-full object-cover" alt="Destaque VRZ">
                             </div>
                         </div>
                         <p class="text-[8px] text-gray-600 italic text-center uppercase tracking-widest">Rigor técnico e excelência em cada detalhe.</p>
@@ -380,4 +388,3 @@
     </script>
 </body>
 </html>
-
